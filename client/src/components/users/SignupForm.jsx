@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function SignupForm({ setMessage }) {
@@ -14,6 +15,7 @@ function SignupForm({ setMessage }) {
         password
       });
       setMessage(response.data.message);
+      useNavigate('/home');
     } catch (error) {
       setMessage(error.response.data.message);
     }
