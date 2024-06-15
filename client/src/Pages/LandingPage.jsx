@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/users/LoginForm";
+import { useSelector } from "react-redux";
 
 function LandingPage() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   return(
     <>
     <main>
@@ -17,7 +19,8 @@ function LandingPage() {
             </p>
           </div>
 
-         
+            { !isAuthenticated ? (
+            <div>
             <LoginForm />
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-500">
@@ -25,6 +28,12 @@ function LandingPage() {
                 <a className="underline" onClick={() => navigate('/signup')} >Sign up</a>
               </p>
             </div>
+            </div>
+            ) : (
+              <div>
+                Welcome
+              </div>
+            )}
        
             </div>
         <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
