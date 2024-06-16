@@ -4,10 +4,10 @@ import { login, register, logout } from '../actions/authThunks';
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isAuthenticated: false,
-    user: null,
+    isAuthenticated: !!localStorage.getItem('token'),
+    user: JSON.parse(localStorage.getItem('user')) || null,
     isLoading: false,
-    error: null,
+    error: null
   },
   reducers: {},
   extraReducers: (builder) => {

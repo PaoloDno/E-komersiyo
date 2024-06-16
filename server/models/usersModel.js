@@ -13,29 +13,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  firstname: {
-    type: String,
-    default: ""
-  },
-  lastname: {
-    type: String,
-    default: ""
-  },
-  middleInitial: {
-    type: String,
-    default: ""
-  },
   userRole: {
     type: Number,
     default: 0
-  },
-  phoneNumber: {
-    type: String,
-    default: ""
-  },
-  userImage: {
-    type: String,
-    default: ""
   },
   verified: {
     type: Boolean,

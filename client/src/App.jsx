@@ -10,7 +10,7 @@ import Homepage from "./Pages/Homepage";
 import LandingPage from "./Pages/LandingPage";
 import DashboardPage from "./Pages/DashboardPage";
 import DashboardAdmin from "./Pages/DashboardAdmin";
-
+import ProfileForm from "./components/users/ProfileForm";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import HeaderNav from './components/Header';
@@ -33,6 +33,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/checkOut" element={<CheckOutPage />} />
+          <Route path="/profile" element={<ProfileForm />} />
         </Routes>
       </div>
     </Router>

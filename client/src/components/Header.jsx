@@ -45,9 +45,12 @@ function Header() {
               )
               :
               (
-              <ul>
+              <ul className='flex space-x-3' >
                 <li>
                   <Link to="/carts" className="hover:text-gray-300">Carts</Link>
+                </li>
+                <li>
+                  <Link to="/profile" className="hover:text-gray-300">User</Link>
                 </li>
                 <li>
                   <button className='hover:text-gray-300'
