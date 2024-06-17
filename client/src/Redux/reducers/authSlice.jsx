@@ -4,12 +4,19 @@ import { login, register, logout } from '../actions/authThunks';
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isAuthenticated: !!localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user')) || null,
+    isAuthenticated: false,
+    user: null,
+    token: null,
     isLoading: false,
-    error: null
+    error: null,
   },
-  reducers: {},
+  reducers: {
+    setUser(state, action) {
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -19,8 +26,8 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
+        state.token = action.payload.token;
         state.isLoading = false;
-        console.log(state);
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -33,6 +40,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
+        state.token = action.payload.token;
         state.isLoading = false;
       })
       .addCase(register.rejected, (state, action) => {
@@ -42,8 +50,11 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.isAuthenticated = false;
         state.user = null;
+        state.token = null;
       });
   },
 });
+
+export const { setUser } = authSlice.actions;
 
 export default authSlice.reducer;

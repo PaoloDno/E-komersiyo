@@ -3,23 +3,23 @@ const mongoose = require('mongoose');
 const AddressSchema = new mongoose.Schema({
   street: {
     type: String,
-    required: true
+    default: ''
   },
   bgry: {
     type: String,
-    required: true
+    default: ''
   },
   city: {
     type: String,
-    required: true
+    default: ''  
   },
   country: {
     type: String,
-    required: true
+    default: ''
   },
   postal: {
     type: String,
-    required: true
+    default: ''
   }
 });
 

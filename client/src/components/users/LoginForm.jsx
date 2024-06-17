@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../Redux/actions/authThunks.jsx'
+import { initializeUser } from '../../Redux/actions/intializeUser.jsx';
+
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -9,14 +11,20 @@ const LoginForm = () => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(initializeUser());
+    console.log( isAuthenticated, user, token)
+  }, [dispatch]);
+
+  const { loading, error, isAuthenticated, user, token } = useSelector((state) => state.auth);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const resultAction = await dispatch(login({ username, password }));
     if (login.fulfilled.match(resultAction)) {
       setMessage('Login successful!');
-      navigate('/home');
+      setTimeout(() => navigate('/home'), 1500);
     }
   };
 

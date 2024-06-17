@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/usersModel.js');
+const UserProfile = require('../models/userProfileModel.js');
+const Cart = require('../models/cartModel.js');
+const UserHistory = require('../models/userHistoryModel.js');
+const UserAddress = require('../models/userAddressModel.js');
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -9,22 +13,75 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ success: false, message: 'Email already in use' });
+      return res.status(400).json({ success: false, message: 'Username or Email already in use' });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create new user
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
     });
+    const savedUser = await newUser.save();
 
-    await newUser.save();
+    // Create related address
+    const newAddress = new UserAddress();
+    await newAddress.save();
 
-    res.status(201).json({ success: true, message: 'User registered successfully' });
+    // Create related cart
+    const newCart = new Cart({
+      userId: savedUser._id,
+      items: []  // Initial empty cart
+    });
+    await newCart.save();
+
+    // Create related history
+    const newUserHistory = new UserHistory({
+      userId: savedUser._id,
+      reviewHistory: [],
+      itemHistory: []
+    });
+    await newUserHistory.save();
+
+    // Create related profile
+    const newProfile = new UserProfile({
+      userProfile: {
+        firstname: '',
+        lastname: '',
+        middleInitial: ''
+      },
+      phoneNumber: '',
+      userImage: '',
+      userName: savedUser._id,
+      userStores: [],
+      address: newAddress._id,
+      cartNumber: newCart._id,
+      userHistory: newUserHistory._id
+    });
+    await newProfile.save();
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userID: savedUser._id, username: savedUser.username },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    res.status(201).json({ 
+      success: true, 
+      message: 'User registered successfully', 
+      token, 
+      user: { userID: savedUser._id, username: savedUser.username },
+      profile: newProfile,
+      cart: newCart,
+      history: newUserHistory,
+      address: newAddress
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
@@ -45,10 +102,17 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-    console.log('Generated Token:', token);  // Log the token for debugging
+    const token = jwt.sign(
+      { userID: user._id, username: user.username },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
 
-    res.status(200).json({ success: true, token });
+    res.status(200).json({ 
+      success: true, 
+      token,
+      user: { userID: user._id, username: user.username },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
@@ -67,7 +131,7 @@ const getUser = async (req, res) => {
       return res.status(500).json({ success: false, message: 'Failed to authenticate token' });
     }
 
-    const user = await User.findById(decoded.id, { password: 0 }); // Exclude password
+    const user = await User.findById(decoded.userID, { password: 0 }); // Exclude password
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
