@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   return(
     <>
-    <main>
-      <section className="relative flex flex-wrap lg:h-screen lg:items-center">
-        <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
-          <div className="mx-auto max-w-lg text-center">
+      <section className="relative flex flex-wrap w-full lg:h-screen lg:items-center">
+        <div className="w-full flex flex-col items-center justify-center px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-lg text-center my-7">
             <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
             <p className="mt-4 text-gray-500">
@@ -21,17 +21,11 @@ function LandingPage() {
 
             { !isAuthenticated ? (
             <div>
-            <LoginForm />
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">
-                No account?
-                <a className="underline" onClick={() => navigate('/signup')} >Sign up</a>
-              </p>
-            </div>
+              <LoginForm />
             </div>
             ) : (
               <div>
-                Welcome
+                Welcome Costumer
               </div>
             )}
        
@@ -44,9 +38,7 @@ function LandingPage() {
           />
         </div>
         
-      </section>
-
-    </main>
+    </section>
     </>
   )
 }

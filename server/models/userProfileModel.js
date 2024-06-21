@@ -16,15 +16,15 @@ const ProfileSchema = new mongoose.Schema({
         default: ""
       },
   },
-  phoneNumber: {
+  phoneNo: {
     type: String,
     default: ""
   },
-  userImage: {
+  userImg: {
     type: String,
     default: ""
   },
-  userName: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true

@@ -30,7 +30,9 @@ const registerUser = async (req, res) => {
     const savedUser = await newUser.save();
 
     // Create related address
-    const newAddress = new UserAddress();
+    const newAddress = new UserAddress({
+      userId: savedUser._id,
+    });
     await newAddress.save();
 
     // Create related cart

@@ -11,9 +11,13 @@ const UserHistorySchema = new mongoose.Schema({
     ref: 'Review'
   }],
   itemHistory: [{
-    productId: {
+    productName: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product'
+    },
+    storeName: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store'
     },
     purchaseDate: {
       type: Date,

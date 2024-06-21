@@ -21,7 +21,7 @@ function App() {
     <>
     <Router>
       <HeaderNav />
-      <div className="container w-full px-6">
+      <div className="min-w-screen px-6 py-4 flex items-center justify-center bg-slate-200 min-h-screen">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Homepage />} />

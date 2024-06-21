@@ -4,7 +4,7 @@ import LoginForm from '../components/users/LoginForm'
 
 const LoginPage = (props) => {
   return (
-    <div>
+    <div className="flex flex-row py-10">
         <LoginForm />
     </div>
   )
