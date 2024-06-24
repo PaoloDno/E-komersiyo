@@ -16,34 +16,31 @@ const ProfileSchema = new mongoose.Schema({
         default: ""
       },
   },
-  phoneNo: {
+  phoneNumber: {
     type: String,
     default: ""
   },
-  userImg: {
+  userImage: {
     type: String,
     default: ""
   },
-  userId: {
+  userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   },
   userStores: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Store'
   }],
-  address: {
+  addressID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
-    required: true
   },
-  cartNumber: {
+  cartID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart',
-    required: true
   },
-  userHistory: {
+  userHistoryID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserHistory'
   },

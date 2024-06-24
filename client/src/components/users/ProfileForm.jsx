@@ -11,16 +11,103 @@ const ProfileForm = () => {
     middleInitial: '',
     phoneNo: '',
     userImg: '',
+    userId: user.userID,
+    userStores: [],
     userStores: '',
-    address: '',
-    cartNumber: '',
-    userHistory: ''
+    addressId: '',
+    cartId: '',
+    historyId: ''
   });
 
+  const [addressData, setAddressData] = useState({
+    street: '',
+    brgy: '',
+    city: '',
+    country: '',
+    postal: '',
+  });
+
+  useEffect(() => {
+    if (profileStatus === 'idle') {
+      dispatch(fetchUser(user.userId));
+    }
+    if (addressStatus === 'idle') {
+      dispatch(fetchAddress(user.userId));
+    }
+  }, [profileStatus, addressStatus, dispatch, user.userId]);
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstname: user.firstname,
+        lastname: user.lastname,
+        middleInitial: user.middleInitial,
+        phoneNo: user.phoneNo,
+        userImg: user.userImg,
+        userStores: user.userStores,
+        cartNumber: user.cartNumber,
+        userHistory: user.userHistory,
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (address) {
+      setAddressData(address);
+    }
+  }, [address]);
+
+  const sanitizeInput = (input) => {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+    };
+    const reg = /[&<>"'/]/ig;
+    return input.replace(reg, (match) => map[match]);
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const sanitizedValue = sanitizeInput(value);
+    
+    if (name.includes('address.')) {
+      const addressField = name.split('.')[1];
+      setAddressData((prev) => ({
+        ...prev,
+        [addressField]: sanitizedValue,
+      }));
+    } else {
+      setFormData({ ...formData, [name]: sanitizedValue });
+    }
   };
+
+  const handleSubmit = async (e) => {
+
+  e.preventDefault();
+  setMessage('');
+
+  try {
+    await dispatch(updateUserProfile({ ...formData, userId: user.userId }));
+    await dispatch(setCartNumber(formData.cartNumber));
+    await dispatch(setUserStores(formData.userStores));
+    await dispatch(setUserHistory(formData.userHistory));
+    
+    setMessage('Profile is successfully updated');
+    setTimeout(() => navigate('/browse'), 1500);
+    }
+    
+    catch (error) {
+      if (error && typeof error.message === 'string') {
+        setMessage(error.message);
+      } else {
+        setMessage('An error occurred during profile update');
+      }
+    }
+  }
 
 
   const [message, setMessage] = useState('');

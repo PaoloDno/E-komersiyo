@@ -33,14 +33,15 @@ const registerUser = async (req, res) => {
     const newAddress = new UserAddress({
       userId: savedUser._id,
     });
-    await newAddress.save();
+    const savedAddress = await newAddress.save();
 
     // Create related cart
     const newCart = new Cart({
       userId: savedUser._id,
       items: []  // Initial empty cart
     });
-    await newCart.save();
+    const savedCart = await newCart.save();
+
 
     // Create related history
     const newUserHistory = new UserHistory({
@@ -48,7 +49,7 @@ const registerUser = async (req, res) => {
       reviewHistory: [],
       itemHistory: []
     });
-    await newUserHistory.save();
+    const savedHistory = await newUserHistory.save();
 
     // Create related profile
     const newProfile = new UserProfile({
@@ -58,12 +59,12 @@ const registerUser = async (req, res) => {
         middleInitial: ''
       },
       phoneNumber: '',
-      userImage: '',
-      userName: savedUser._id,
+      userImage: 'defaultImg',
       userStores: [],
-      address: newAddress._id,
-      cartNumber: newCart._id,
-      userHistory: newUserHistory._id
+      userID: savedUser._id,
+      addressID: savedAddress._id,
+      cartID: savedCart._id,
+      userHistoryID: savedHistory._id
     });
     await newProfile.save();
 
