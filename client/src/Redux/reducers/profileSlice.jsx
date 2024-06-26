@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  profile: null,
+  username: '',
   userProfile: {
     firstname: '',
     lastname: '',
@@ -8,6 +10,13 @@ const initialState = {
   },
   phoneNum: '',
   userID: '',
+  address: {
+    street: '',
+    bgry: '',
+    city: '',
+    country: '',
+    postal: ''
+  },
   userStores: [],
   addressID: '',
   cartID: '',

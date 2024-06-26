@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../Redux/actions/authThunks';
 
@@ -7,9 +7,10 @@ function Header() {
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/')
   }
   
 
