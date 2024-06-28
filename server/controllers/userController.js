@@ -74,7 +74,7 @@ const registerUser = async (req, res) => {
       SECRET_KEY,
       { expiresIn: '1h' }
     );
-
+    //postman if i ever learn to use postman
     res.status(201).json({ 
       success: true, 
       message: 'User registered successfully', 

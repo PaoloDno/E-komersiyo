@@ -24,6 +24,7 @@ const ProfileFormAddress = () => {
         postal: postal,
       });
     }
+    console.log(addressData);
   }, [profile]);
 
   const handleChange = (e) => {

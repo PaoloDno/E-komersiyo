@@ -13,7 +13,6 @@ const ProfileForm = () => {
     userImg: '',
     userId: user.userID,
     userStores: [],
-    userStores: '',
     addressId: '',
     cartId: '',
     historyId: ''

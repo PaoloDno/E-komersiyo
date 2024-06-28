@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const ProfileFormUser = () => {
   const dispatch = useDispatch();
-  const { profile, userProfile, phoneNum,} = useSelector(state => state.auth.profile);
+  const { profile, userProfile, phoneNum,} = useSelector(state => state.profile);
   const { firstname, lastname, middleInitial } = userProfile;
 
   const [formData, setFormData] = useState({
@@ -30,7 +30,8 @@ const ProfileFormUser = () => {
         phoneNum: phoneNum,
       })
     }
-  }, [profile]);
+    console.log(formData)
+  }, []);
 
   const sanitizeInput = (input) => {
     const map = {
@@ -51,20 +52,6 @@ const ProfileFormUser = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if(containsSanitizableCharacters(formData.firstname) 
-      || containsSanitizableCharacters(formData.lastname) 
-      || containsSanitizableCharacters(formData.middleInitial) 
-      || containsSanitizableCharacters(formData.phoneNo)){
-      setMessage('Input contains invalid characters. ("&","<",">","/")');
-      setFormValidity(false);
-      return;
-    }else if(!formData.firstname || !formData.lastname || !formData.middleInitial || !formData.phoneNo) {
-      setMessage('Fill-up all inputs');
-      setFormValidity(false);
-    } else {
-      setFormValidity(true);
-    }
-    
   };
 
   const handleSubmit = async (e) => {
@@ -79,8 +66,22 @@ const ProfileFormUser = () => {
     }else if(!formData.firstname || !formData.lastname || !formData.middleInitial || !formData.phoneNo) {
       setMessage('Fill-up all inputs');
       setFormValidity(false);
+      return;
     } else {
       setFormValidity(true);
+    }
+
+    //sanitize
+    if(formValidity){
+    const sanitizeFirstName = sanitizeInput(formData.firstname)
+    const sanitizeLastName = sanitizeInput(formData.lastname)
+    const sanitizeMiddleInitial = sanitizeInput(formData.middleInitial)
+    const sanitizePhoneNUm = sanitizeInput(formData.phoneNum);
+      setMessage(" inputs are ok")
+      return;
+    }else {
+      setMessage("in developemnt but inputs are ok")
+      return;
     }
    {/*} try {
       await dispatch(updateUserProfile(formData));
@@ -139,7 +140,7 @@ const ProfileFormUser = () => {
             <label htmlFor="phoneNo" className="block mb-2">Phone Number:</label>
             <input
               required
-              type="text"
+              type="number"
               id="phoneNo"
               name="phoneNo"
               value={formData.phoneNo}

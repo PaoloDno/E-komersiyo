@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserProfile } from '../../Redux/actions/profileThunk';
 
 import ProfileFormUser from './ProfileFormUsers';
 import ProfileFormAddress from './ProfileFormAddress';
 
+
 const ProfileForm2 = () => {
 
+  const user = useSelector(state => state.auth.user);
+  
+  const userID = user ? user.userID : null;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(userID){
+    dispatch(fetchUserProfile(userID));
+    }
+  }, [dispatch, userID]);
 
   return (
     <div className="flex w-full flex-row">
@@ -15,7 +28,7 @@ const ProfileForm2 = () => {
         <ul>
           <li><Link to="profile">Profile</Link></li>
           <li><Link to="address">Address</Link></li>
-          {/*}
+          {/*
           <li><Link to="history">History</Link></li>
           <li><Link to="shop">Shop</Link></li>
           <li><Link to="cart">Cart</Link></li>
@@ -28,7 +41,6 @@ const ProfileForm2 = () => {
           <Route path="profile" element={<ProfileFormUser />} />
           <Route path="address" element={<ProfileFormAddress />} />
           {/*
-          
           <Route path="history" element={<div>History</div>} />
           <Route path="shop" element={<div>Shop</div>} />
           <Route path="cart" element={<div>Cart</div>} />
