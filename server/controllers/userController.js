@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
+    // new user
     const newUser = new User({
       username,
       email,
@@ -29,13 +29,13 @@ const registerUser = async (req, res) => {
     });
     const savedUser = await newUser.save();
 
-    // Create related address
+    // address
     const newAddress = new UserAddress({
       userId: savedUser._id,
     });
     const savedAddress = await newAddress.save();
 
-    // Create related cart
+    // cart
     const newCart = new Cart({
       userId: savedUser._id,
       items: []  // Initial empty cart
@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
     const savedCart = await newCart.save();
 
 
-    // Create related history
+    // history
     const newUserHistory = new UserHistory({
       userId: savedUser._id,
       reviewHistory: [],
@@ -51,7 +51,7 @@ const registerUser = async (req, res) => {
     });
     const savedHistory = await newUserHistory.save();
 
-    // Create related profile
+    // profile
     const newProfile = new UserProfile({
       userProfile: {
         firstname: '',
@@ -86,7 +86,6 @@ const registerUser = async (req, res) => {
       address: newAddress
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
@@ -115,32 +114,13 @@ const loginUser = async (req, res) => {
       success: true, 
       token,
       user: { userID: user._id, username: user.username },
+      message: 'successful login'
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
-const getUser = async (req, res) => {
-  const token = req.headers['authorization'];
 
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
-  }
 
-  jwt.verify(token, SECRET_KEY, async (err, decoded) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    const user = await User.findById(decoded.userID, { password: 0 }); // Exclude password
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    res.status(200).json({ success: true, user });
-  });
-};
-
-module.exports = { registerUser, loginUser, getUser };
+module.exports = { registerUser, loginUser};

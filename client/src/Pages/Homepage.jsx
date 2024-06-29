@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import Carousel from "../components/hero/Carousel";
 import SideCategory from "../components/hero/SideCategory";
+import { initializeUser } from '../Redux/actions/intializeUser';
+
 const Homepage = () => {
+
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(initializeUser());
+  }, [dispatch]);
+  
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   return (
     <div className="flex flex-col lg:flex-row w-full justify-center bg-gray-100 min-h-screen">
       <div className="flex flex-col m-4 w-full lg:w-1/6 bg-white p-6 shadow-md rounded-lg">
@@ -60,6 +71,7 @@ const Homepage = () => {
             <div className="bg-gray-300 p-4 rounded-lg flex items-center justify-center">
               <span className="text-gray-700">Product 4</span>
             </div>
+            {isAuthenticated ? (<p>Welcome {user.userID}</p>) : (<p>login/signup</p>) }
           </div>
         </div>
       </div>

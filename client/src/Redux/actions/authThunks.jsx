@@ -4,10 +4,13 @@ import api from '../features/api';
 export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
   try {
     const response = await api.post('/users/login', credentials); // Use the configured `api` instance
+    
+    if (response){
     const { token, user } = response.data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     return { token, user };
+    }
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
   }

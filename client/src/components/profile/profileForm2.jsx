@@ -8,8 +8,8 @@ import ProfileFormAddress from './ProfileFormAddress';
 
 
 const ProfileForm2 = () => {
-
-  const user = useSelector(state => state.auth.user);
+  
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   
   const userID = user ? user.userID : null;
 
