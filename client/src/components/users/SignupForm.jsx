@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { register } from '../../Redux/actions/authThunks';
 
 import { initializeUser } from '../../Redux/actions/intializeUser';
+import { clearError } from '../../Redux/reducers/authSlice';
+
 
 import { IoMail, IoAlertCircleSharp } from "react-icons/io5";
 import { FaUser, FaLock } from "react-icons/fa";
@@ -27,6 +29,7 @@ const SignupForm = () => {
   const [repeatPass, setRepeatPassword] = useState('');
   const [validRepeat, setValidRepeat] = useState(false);
   const [message, setMessage] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const sanitizeInput = (input) => {
     const map = {
@@ -40,6 +43,8 @@ const SignupForm = () => {
     const reg = /[&<>"'/]/ig;
     return input.replace(reg, (match) => map[match]);
   };
+
+  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
   const containsSanitizableCharacters = (input) => /[&<>"'/]/.test(input);
 
@@ -72,8 +77,24 @@ const SignupForm = () => {
     setMessage('');
   }, [username, email, password, repeatPass]);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
-  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => dispatch(clearError()), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
+
+
+  const handlePhoneNumChange = (e) => {
+    setPhoneNumber(e.target.value);
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -81,10 +102,15 @@ const SignupForm = () => {
     const sanitizedUsername = sanitizeInput(username);
     const sanitizedEmail = sanitizeInput(email);
     const sanitizedPassword = sanitizeInput(password);
-
+    
     const testv1 = USER_REGEX.test(sanitizedUsername);
     const testv2 = PWD_REGEX.test(sanitizedPassword);
     const testv3 = EMAIL_REGEX.test(sanitizedEmail);
+    
+    
+    if(phoneNumber){
+      return;
+    }
 
     if (!testv1 || !testv2 || !testv3) {
       setMessage('Invalid Entry');
@@ -124,7 +150,7 @@ const SignupForm = () => {
           <p><span className="text-blue-500 cursor-pointer underline" onClick={() => navigate('/')}>continue</span></p>
         </div>
       ) : (
-      <div className='flex flex-col w-full h-[600px]'> 
+      <div className='flex flex-col w-full min-h-[600px]'> 
       <h1 className="text-xl lg:text-2xl font-medium text-white mb-4">Signup</h1>
       <form className="w-full" onSubmit={handleSignup}>
         <label htmlFor="username" className="flex items-center mb-2 font-semibold text-white">
@@ -212,6 +238,14 @@ const SignupForm = () => {
             Must match the first password input field.
           </p>
         )}
+        <input
+          type="text"
+          id="phonenumber"
+          name="phonenumber"
+          value={phoneNumber}
+          onChange={handlePhoneNumChange}
+          className='hidden'  
+        /> //honey
         <button
           type="submit"
           className={`w-full p-3 text-white rounded transition-colors ${!validName || !validEmail || !validPass || !validRepeat || isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
@@ -220,11 +254,14 @@ const SignupForm = () => {
           {isLoading ? 'Signing up...' : 'Signup'}
         </button>
       </form>
-      {message && <p className="mt-3 text-red-500">{message}</p>}
+      {message && <p className="mt-3 text-green-500">{message}</p>}
       {error && <p className="mt-3 text-red-500">{error}</p>}
       <p className="text-slate-400 mt-4">Already have an account? <span className="text-blue-500 cursor-pointer underline" onClick={() => navigate('/login')}>Log in</span> instead</p>
       </div> // dont know if i should put a div or fragment will do
     )}
+    <div className=''>
+
+    </div>
   </div>
   );
 };

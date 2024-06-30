@@ -31,7 +31,7 @@ const ProfileFormUser = () => {
       })
     }
     console.log(formData)
-  }, []);
+  }, [dispatch]);
 
   const sanitizeInput = (input) => {
     const map = {
@@ -96,8 +96,16 @@ const ProfileFormUser = () => {
   return (
     <div className='flex flex-col w-full'>
       <h1 className="mb-4 text-xl font-bold">Profile Information</h1>
+      <div className='grid grid-cols-2 my-2'>
+            <p>firstname: {formData.firstname}</p>
+            <p>lastname: {formData.lastname}</p>
+            <p>MI: {formData.middleInitial}</p>
+            <p>Phone No.: {formData.phoneNum}</p>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          
           <div className="flex flex-col">
             <label htmlFor="firstname" className="block mb-2">First Name:</label>
             <input

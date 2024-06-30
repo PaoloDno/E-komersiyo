@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../Redux/actions/authThunks';
 
 import { initializeUser } from '../../Redux/actions/intializeUser';
+import { clearError } from '../../Redux/reducers/authSlice';
 
 import { FaUser, FaLock } from "react-icons/fa";
 
@@ -16,6 +17,8 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+
+  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
   const sanitizeInput = (input) => {
     const map = {
@@ -34,8 +37,25 @@ const LoginForm = () => {
     dispatch(initializeUser());
   }, [dispatch]);
 
-  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
+  useEffect(() => {
+    setMessage('');
+  }, [username, password]);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => dispatch(clearError()), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
+
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
     const sanitizedUsername = sanitizeInput(username);

@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {fetchUserProfile, updateUserProfile} from "../actions/profileThunk"
 const initialState = {
-  profile: null,
   profileId: '',
   username: '',
   userId: '',
