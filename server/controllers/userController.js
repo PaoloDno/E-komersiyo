@@ -71,6 +71,7 @@ const registerUser = async (req, res) => {
       SECRET_KEY,
       { expiresIn: '1h' }
     );
+    console.log(newProfile);
     //postman if i ever learn to use postman
     res.status(201).json({ 
       success: true, 
@@ -106,7 +107,7 @@ const loginUser = async (req, res) => {
       SECRET_KEY,
       { expiresIn: '1h' }
     );
-
+    console.log(user);
     res.status(200).json({ 
       success: true, 
       token,

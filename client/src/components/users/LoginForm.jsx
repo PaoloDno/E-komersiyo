@@ -70,14 +70,14 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center bg-gray-800 p-6 lg:p-10 rounded-lg shadow-md w-full max-w-md mx-auto">
+    <div className="flex flex-col lg:flex-row items-center justify-center bg-gray-800 p-5 md:p-10 rounded-lg shadow-md w-full md:w-[600px]">
       {isAuthenticated ? (
         <div className="text-white flex flex-col justify-center">
           <h1 className='text-xl lg:text-2xl font-medium mb-2'>You're already logged in</h1>
           <p><span className="text-blue-500 cursor-pointer underline" onClick={() => navigate('/')}>continue</span></p>
         </div>
       ) : (
-        <div className="flex flex-col w-full h-[600px]">
+        <div className="flex flex-col w-full h-fit p-5">
           <h1 className="text-xl lg:text-2xl font-medium text-white mb-4">Login</h1>
           <form onSubmit={handleLogin} className="w-full">
             <label htmlFor="username" className="flex items-center mb-2 font-semibold text-white">

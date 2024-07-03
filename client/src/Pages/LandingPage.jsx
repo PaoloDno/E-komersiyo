@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 function LandingPage() {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
+  
   return(
     <>
       <section className="relative flex flex-wrap w-full lg:h-screen lg:items-center">

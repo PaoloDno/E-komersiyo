@@ -143,7 +143,7 @@ const SignupForm = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center bg-gray-800 p-6 lg:p-10 rounded-lg shadow-md w-full max-w-md mx-auto">
+    <div className="flex flex-col lg:flex-row items-center justify-center bg-gray-800 p-6 lg:p-10 rounded-lg shadow-md w-full md:w-[600px]">
       {isAuthenticated ? (
         <div className="text-white flex flex-col justify-center">
           <h1 className='text-xl lg:text-2xl font-medium mb-2'>You're already logged in</h1>
@@ -245,7 +245,7 @@ const SignupForm = () => {
           value={phoneNumber}
           onChange={handlePhoneNumChange}
           className='hidden'  
-        /> //honey
+        />
         <button
           type="submit"
           className={`w-full p-3 text-white rounded transition-colors ${!validName || !validEmail || !validPass || !validRepeat || isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
@@ -259,9 +259,7 @@ const SignupForm = () => {
       <p className="text-slate-400 mt-4">Already have an account? <span className="text-blue-500 cursor-pointer underline" onClick={() => navigate('/login')}>Log in</span> instead</p>
       </div> // dont know if i should put a div or fragment will do
     )}
-    <div className=''>
-
-    </div>
+    
   </div>
   );
 };

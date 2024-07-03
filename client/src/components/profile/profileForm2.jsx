@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserProfile } from '../../Redux/actions/profileThunk';
-
+import { fetchUserProfile, fetchAddressProfile } from '../../Redux/actions/profileThunk';
 import ProfileFormUser from './ProfileFormUsers';
 import ProfileFormAddress from './ProfileFormAddress';
-
+import ProfileFormDisplay from './profileFormDisplay';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileForm2 = () => {
-  
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  
-  const userID = user ? user.userID : null;
-
+  const { userID } = user || {};
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { profile } = useSelector((state) => state.profile);
+  const error = useSelector((state) => state.profile.error);
+  const isLoading = useSelector((state) => state.profile.isLoading);
+  const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    if(userID){
-    dispatch(fetchUserProfile(userID));
-    }
-  }, [dispatch, userID]);
+    const fetchProfileData = async () => {
+      try {
+        if (!isFetched && userID) {
+          await dispatch(fetchUserProfile(userID)).unwrap();
+          await dispatch(fetchAddressProfile(userID)).unwrap();
+          setIsFetched(true);
+          console.log(profile);
+        }
+      } catch (error) {
+        console.error('Failed to fetch profile', error);
+      }
+    };
+
+    fetchProfileData();
+  }, [dispatch, userID, isFetched]);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="flex w-full flex-row">
@@ -37,7 +62,7 @@ const ProfileForm2 = () => {
       </div>
       <div className="flex flex-col w-3/4 max-w-2xl bg-slate-300 p-6 rounded-3xl shadow-lg shadow-slate-600 mt-4">
         <Routes>
-          <Route path="/" element={<Navigate to="profile" />} />
+          <Route path="*" element={<ProfileFormDisplay />} />
           <Route path="profile" element={<ProfileFormUser />} />
           <Route path="address" element={<ProfileFormAddress />} />
           {/*

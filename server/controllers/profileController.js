@@ -1,28 +1,31 @@
 const Profile = require('../models/userProfileModel');
+const Address = require('../models/userAddressModel');
 
 const getProfileByUserId = async (req, res) => {
+  console.log('Fetching profile in controller');
+  const { userID } = req.params;
+
   try {
-    
-    console.log(json(profile));
-    const profile = await Profile.findOne({ userID: req.params.userId });
+    const profile = await Profile.findOne({ userID });
+
     if (!profile) {
-      return res.status(404).json({ message: 'Profilesasdas not found' });
+      return res.status(404).json({ message: 'Profile not found' });
     }
-    console.log(json(profile));
-    res.status(200).json(profile);
-    
+    console.log('success profiel fetech')
+    return res.status(200).json(profile);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error fetching profile:', error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
 
-
 const updateProfile = async (req, res) => {
-  try {
-    const { userProfile, phoneNumber, userImage, userStores } = req.body;
+  const { userID } = req.params;
+  const { userProfile, phoneNumber, userImage, userStores } = req.body;
 
+  try {
     const profile = await Profile.findOneAndUpdate(
-      { userName: req.params.userId },
+      { userID },
       { userProfile, phoneNumber, userImage, userStores },
       { new: true }
     );
@@ -31,10 +34,31 @@ const updateProfile = async (req, res) => {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    res.status(200).json(profile);
+    return res.status(200).json(profile);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error updating profile:', error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { getProfileByUserId, updateProfile };
+const getAddressByUserId = async (req, res) => {
+  console.log('Fetching address in controller');
+
+  const { userID } = req.params;
+
+  try {
+    const address = await Address.findOne({ userId: userID });
+    //fucking shit ID vs Id
+
+    if (!address) {
+      return res.status(404).json({ message: 'Profile Address not found' });
+    }
+    console.log('success address fetech')
+    return res.status(200).json(address);
+  } catch (error) {
+    console.error('Error fetching profile:', error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getProfileByUserId, updateProfile, getAddressByUserId };

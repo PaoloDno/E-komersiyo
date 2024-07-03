@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-//import { updateUserProfile } from '../../Redux/actions/profileActions'; // Adjust path as needed
+import { updateUserProfile } from '../../Redux/actions/profileThunk'; // Adjust path as needed
 
 const ProfileFormUser = () => {
   const dispatch = useDispatch();
-  const { profile, userProfile, phoneNum,} = useSelector(state => state.profile);
-  const { firstname, lastname, middleInitial } = userProfile;
+
+  const { profile, isLoading, error } = useSelector(state => state.profile);
+  const { userProfile, phoneNum } = profile || {};
+  const { firstname, lastname, middleInitial } = userProfile || {};
 
   const [formData, setFormData] = useState({
     firstname: '',
@@ -24,13 +26,14 @@ const ProfileFormUser = () => {
   useEffect(() => {
     if (profile) {
       setFormData({
-        firstname: firstname,
-        lastname: lastname,
-        middleInitial: middleInitial,
-        phoneNum: phoneNum,
+        firstname: firstname || '',
+        lastname: lastname || '',
+        middleInitial: middleInitial || '',
+        phoneNum: phoneNum || '',
       })
     }
-    console.log(formData)
+    console.log(formData);
+    console.log(profile);
   }, [dispatch]);
 
   const sanitizeInput = (input) => {
@@ -72,26 +75,22 @@ const ProfileFormUser = () => {
     }
 
     //sanitize
-    if(formValidity){
-    const sanitizeFirstName = sanitizeInput(formData.firstname)
-    const sanitizeLastName = sanitizeInput(formData.lastname)
-    const sanitizeMiddleInitial = sanitizeInput(formData.middleInitial)
-    const sanitizePhoneNUm = sanitizeInput(formData.phoneNum);
-      setMessage(" inputs are ok")
-      return;
-    }else {
-      setMessage("in developemnt but inputs are ok")
-      return;
-    }
-   {/*} try {
-      await dispatch(updateUserProfile(formData));
-      // Handle success
-    } catch (error) {
-      // Handle error
+    if (formValidity) {
+      const sanitizedData = {
+        firstname: sanitizeInput(formData.firstname),
+        lastname: sanitizeInput(formData.lastname),
+        middleInitial: sanitizeInput(formData.middleInitial),
+        phoneNum: sanitizeInput(formData.phoneNum),
+      };
+      
+      try {
+        await dispatch(updateUserProfile(sanitizedData));
+        setMessage('Profile updated successfully');
+      } catch (error) {
+        setMessage('Failed to update profile');
+      }
     }
   };
-  */}
-   }
 
   return (
     <div className='flex flex-col w-full'>

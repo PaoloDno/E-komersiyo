@@ -11,7 +11,7 @@ import LandingPage from "./Pages/LandingPage";
 import DashboardPage from "./Pages/DashboardPage";
 import DashboardAdmin from "./Pages/DashboardAdmin";
 import ProfileForm2 from "./components/profile/profileForm2";
-import ProfileForm from "./components/users/ProfileForm";
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import HeaderNav from './components/Header';
@@ -22,7 +22,7 @@ function App() {
     <>
     <Router>
       <HeaderNav />
-      <div className="min-w-screen px-6 py-4 flex items-center justify-center bg-slate-200 min-h-screen">
+      <div className="min-w-screen px-1 lg:px-6 py-3 flex items-center justify-center bg-slate-200 min-h-screen">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Homepage />} />
