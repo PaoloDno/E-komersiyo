@@ -28,13 +28,13 @@ const registerUser = async (req, res) => {
 
     // address
     const newAddress = new UserAddress({
-      userId: savedUser._id,
+      userID: savedUser._id,
     });
     const savedAddress = await newAddress.save();
 
     // cart
     const newCart = new Cart({
-      userId: savedUser._id,
+      userID: savedUser._id,
       items: []  // Initial empty cart
     });
     const savedCart = await newCart.save();
@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
 
     // history
     const newUserHistory = new UserHistory({
-      userId: savedUser._id,
+      userID: savedUser._id,
       reviewHistory: [],
       itemHistory: []
     });

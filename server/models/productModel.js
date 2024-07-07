@@ -18,10 +18,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  productCategory: {
-    type: [String],
-    default: []
-  },
+  productCategory: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
+  }],
   productImage: {
     type: String,
     default: ""

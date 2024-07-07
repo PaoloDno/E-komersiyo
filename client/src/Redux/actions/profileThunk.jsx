@@ -29,7 +29,7 @@ export const updateUserProfile = createAsyncThunk(
   async (profileData, { getState, rejectWithValue }) => {
     const token = getState().auth.token; 
     try {
-      const response = await api.put(`/profile/${profileData.userID}`, profileData, {
+      const response = await api.put(`/profile/update/${profileData.userID}`, profileData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -66,12 +66,12 @@ export const fetchAddressProfile = createAsyncThunk(
 
 export const updateAddressProfile = createAsyncThunk(
   'profile/updateAddressProfile',
-  async (userID, { getState, rejectWithValue }) => {
+  async (addressData, { getState, rejectWithValue }) => {
     console.log('to get token for address');
     const token = getState().auth.token; 
     try {
-      console.log("Fetching user address profile with ID:", userID);
-      const response = await api.get(`/profile/address/${userID}`, {
+      console.log("Fetching user address profile with ID:", addressData.userID);
+      const response = await api.put(`/profile/updateAddress/${addressData.userID}`, addressData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

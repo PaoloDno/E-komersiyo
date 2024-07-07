@@ -22,11 +22,12 @@ const ProfileSchema = new mongoose.Schema({
   },
   userImage: {
     type: String,
-    default: ""
+    default: "avatar"
   },
   userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   userStores: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -35,14 +36,17 @@ const ProfileSchema = new mongoose.Schema({
   addressID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
+    required: true
   },
   cartID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart',
+    required: true
   },
   userHistoryID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserHistory'
+    ref: 'UserHistory',
+    required: true
   },
 });
 

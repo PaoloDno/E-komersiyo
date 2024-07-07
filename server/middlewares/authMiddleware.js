@@ -6,6 +6,7 @@ const authMiddleware = async (req, res, next) => {
   console.log('auth')
   try {
     console.log('auth middleware')
+
     // Check if Authorization header exists
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
@@ -14,14 +15,17 @@ const authMiddleware = async (req, res, next) => {
     }
 
     console.log("theres a header")
+    
     // Extract token from Authorization header
     const token = authHeader.replace('Bearer ', '');
 
     console.log('verifying token')
+    
     // Verify token
     const decoded = jwt.verify(token, SECRET_KEY);
     console.log(decoded)
     console.log('decoding tojen')
+    
     // Check if user exists
     const user = await User.findById(decoded.userID);
     if (!user) {
@@ -35,7 +39,13 @@ const authMiddleware = async (req, res, next) => {
     next(); // Pass control to the next middleware
   } catch (error) {
     console.error('Token verification error:', error);
-    return res.status(403).json({ success: false, message: 'Invalid token.' });
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ success: false, message: 'Token expired.' });
+    } else if (error.name === 'JsonWebTokenError') {
+      return res.status(403).json({ success: false, message: 'Invalid token.' });
+    } else {
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
   }
 };
 

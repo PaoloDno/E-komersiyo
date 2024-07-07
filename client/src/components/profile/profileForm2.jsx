@@ -5,11 +5,17 @@ import { fetchUserProfile, fetchAddressProfile } from '../../Redux/actions/profi
 import ProfileFormUser from './ProfileFormUsers';
 import ProfileFormAddress from './ProfileFormAddress';
 import ProfileFormDisplay from './profileFormDisplay';
+import ProfileFormStore from './ProfileFormStore';
+import ProfileFormStoreCreate from './ProfileFOrmStoreCreate';
+import ProfileFormStoreDashboard from './ProfileFormStoreDashboard';
 import { useNavigate } from 'react-router-dom';
+
+import { FaUser } from 'react-icons/fa'; // Import icons from react-icons
+
 
 const ProfileForm2 = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const { userID } = user || {};
+  const { userID, username } = user || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { profile } = useSelector((state) => state.profile);
@@ -47,29 +53,32 @@ const ProfileForm2 = () => {
   }
 
   return (
-    <div className="flex w-full flex-row">
-      <div className="bg-gray-800 text-white p-4 w-1/4">
+    <div className="flex flex-row w-screen min-h-screen">
+      {/* Sidebar */}
+      <div className="bg-gray-800 text-white p-4 w-1/4 lg:w-1/5 shadow-lg z-20">
         <h2 className="text-xl mb-4">Sidebar Navigation</h2>
         <ul>
-          <li><Link to="profile">Profile</Link></li>
-          <li><Link to="address">Address</Link></li>
-          {/*
-          <li><Link to="history">History</Link></li>
-          <li><Link to="shop">Shop</Link></li>
-          <li><Link to="cart">Cart</Link></li>
-          */}
+          <li className="mb-2"><Link to="*"><FaUser className="inline mr-2" />{username}</Link></li>
+          <li className="mb-2"><Link to="profile"><FaUser className="inline mr-2" />Profile</Link></li>
+          <li className="mb-2"><Link to="address"><FaUser className="inline mr-2" />Address</Link></li>
+          <li className="mb-2"><Link to="store"><FaUser className="inline mr-2" />Store</Link></li>
+          <li className="mb-2"><Link to="cart"><FaUser className="inline mr-2" />Cart</Link></li>
+          <li>logout</li>
+          
         </ul>
       </div>
-      <div className="flex flex-col w-3/4 max-w-2xl bg-slate-300 p-6 rounded-3xl shadow-lg shadow-slate-600 mt-4">
+      
+      {/* Main Content */}
+      <div className="flex flex-col w-full lg:w-3/4 max-w-2xl bg-slate-300 p-6 rounded-3xl shadow-lg shadow-slate-600 mt-4 z-10">
         <Routes>
           <Route path="*" element={<ProfileFormDisplay />} />
           <Route path="profile" element={<ProfileFormUser />} />
           <Route path="address" element={<ProfileFormAddress />} />
-          {/*
-          <Route path="history" element={<div>History</div>} />
-          <Route path="shop" element={<div>Shop</div>} />
-          <Route path="cart" element={<div>Cart</div>} />
-          */}
+          <Route path="store" element={<ProfileFormStore />} />
+          <Route path="store/:storeID" element={<ProfileFormStoreDashboard />} />
+          <Route path="store/create" element={<ProfileFormStoreCreate />} />
+
+          {/* Add more routes as needed */}
         </Routes>
       </div>
     </div>
