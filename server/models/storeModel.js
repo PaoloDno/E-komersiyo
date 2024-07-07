@@ -6,9 +6,15 @@ const StoreSchema = new mongoose.Schema({
     required: true
   },
   storeOwner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    storeOwnerID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    storeOwnerName: {
+      type: String,
+      required: true
+    }
   },
   storeDescription: {
     type: String,
@@ -29,7 +35,19 @@ const StoreSchema = new mongoose.Schema({
   dateCreated: {
     type: Date,
     default: Date.now
-  }
+  },
+  OwnerRequestToDelete: {
+    type: Boolean,
+    default: false
+  },
+  storeReports: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'StoreReport'
+  }],
+  storeReviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'StoreReview'
+  }]
 });
 
 const Store = mongoose.model('Store', StoreSchema);

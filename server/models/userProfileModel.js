@@ -30,8 +30,14 @@ const ProfileSchema = new mongoose.Schema({
     required: true
   },
   userStores: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Store'
+    storeID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store'
+    },
+    storeName: {
+      type: String,
+      required: true
+    }
   }],
   addressID: {
     type: mongoose.Schema.Types.ObjectId,

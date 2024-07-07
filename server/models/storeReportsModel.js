@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const StoreReviewSchema = new mongoose.Schema({
+const StoreReportSchema = new mongoose.Schema({
   storeID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Store',
@@ -11,13 +11,12 @@ const StoreReviewSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  rating: {
-    type: Number,
-    min: 1,
-    max: 5,
+  reportReason: {
+    type: String,
+    enum: ['Inappropriate Content', 'Fraudulent Activity', 'Spam', 'Other'],
     required: true
   },
-  reviewText: {
+  reportText: {
     type: String,
     required: true
   },
@@ -27,5 +26,5 @@ const StoreReviewSchema = new mongoose.Schema({
   }
 });
 
-const StoreReview = mongoose.model('StoreReview', StoreReviewSchema);
-module.exports = StoreReview;
+const StoreReport = mongoose.model('StoreReport', StoreReportSchema);
+module.exports = StoreReport;
