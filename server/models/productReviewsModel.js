@@ -5,6 +5,12 @@ const ProductReviewSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  ReviwerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  
   reviewerRating: {
     type: Number,
     required: true
@@ -13,7 +19,7 @@ const ProductReviewSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  productId: {
+  productID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
     required: true

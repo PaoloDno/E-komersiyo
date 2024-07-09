@@ -24,9 +24,13 @@ const StoreSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
-  storeImage: {
+  storeProfileImage: {
     type: String,
     default: ""
+  },
+  storeRating:{
+    type: Number,
+    default: 3
   },
   verified: {
     type: Boolean,

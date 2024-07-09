@@ -7,25 +7,27 @@ const TransactionSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  storeID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Store',
-    required: true
-  },
-  items: [{
-    productId: {
+  OrderObject: [{
+    storeID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: 'Store',
       required: true
     },
-    quantity: {
-      type: Number,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    }
+    items: [{
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true
+      },
+      price: {
+        type: Number,
+        required: true
+      }
+    }]
   }],
   totalAmount: {
     type: Number,

@@ -27,7 +27,7 @@ const DisplayProfileState = () => {
           <div className="mb-4">
             <h2 className="text-lg font-semibold">Address</h2>
             <p>Street: {address.street || ''}</p>
-            <p>Barangay: {address.bgry || ''}</p>
+            <p>Barangay: {address.brgy || ''}</p>
             <p>City: {address.city || ''}</p>
             <p>Country: {address.country || ''}</p>
             <p>Postal Code: {address.postal || ''}</p>

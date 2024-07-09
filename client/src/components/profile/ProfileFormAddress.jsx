@@ -128,7 +128,7 @@ const ProfileFormAddress = () => {
                 type="text"
                 id="street"
                 name="street"
-                value={addressData.street}
+                value={addressData.street == '' ? 'processing..' : addressData.street}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 rounded"
                 maxLength="100"
@@ -141,7 +141,7 @@ const ProfileFormAddress = () => {
                 type="text"
                 id="brgy"
                 name="brgy"
-                value={addressData.brgy}
+                value={addressData.brgy == '' ? 'processing..' : addressData.brgy}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 rounded"
                 maxLength="100"
@@ -154,7 +154,7 @@ const ProfileFormAddress = () => {
                 type="text"
                 id="city"
                 name="city"
-                value={addressData.city}
+                value={addressData.city == '' ? 'processing..' : addressData.city}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 rounded"
                 maxLength="100"
@@ -167,7 +167,7 @@ const ProfileFormAddress = () => {
                 type="text"
                 id="country"
                 name="country"
-                value={addressData.country}
+                value={addressData.country == '' ? 'processing..' : addressData.country}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 rounded"
                 maxLength="100"
@@ -180,7 +180,7 @@ const ProfileFormAddress = () => {
                 type="text"
                 id="postal"
                 name="postal"
-                value={addressData.postal}
+                value={addressData.postal == '' ? 'processing..' : addressData.postal}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 rounded"
                 maxLength="10"
