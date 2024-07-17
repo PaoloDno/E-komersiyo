@@ -6,7 +6,7 @@ import ProfileFormUser from './ProfileFormUsers';
 import ProfileFormAddress from './ProfileFormAddress';
 import ProfileFormDisplay from './profileFormDisplay';
 import ProfileFormStore from './ProfileFormStore';
-import ProfileFormStoreCreate from './ProfileFOrmStoreCreate';
+import ProfileFormStoreCreate from './ProfileFormStoreCreate';
 import ProfileFormStoreDashboard from './ProfileFormStoreDashboard';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,27 +18,27 @@ const ProfileForm2 = () => {
   const { userID, username } = user || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { profile } = useSelector((state) => state.profile);
   const error = useSelector((state) => state.profile.error);
   const isLoading = useSelector((state) => state.profile.isLoading);
   const [isFetched, setIsFetched] = useState(false);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        if (!isFetched && userID) {
-          await dispatch(fetchUserProfile(userID)).unwrap();
-          await dispatch(fetchAddressProfile(userID)).unwrap();
-          setIsFetched(true);
-          console.log(profile);
-        }
-      } catch (error) {
-        console.error('Failed to fetch profile', error);
+  const fetchProfileData = async () => {
+    try {
+      if (!isFetched && userID) {
+        await dispatch(fetchUserProfile(userID)).unwrap();
+        await dispatch(fetchAddressProfile(userID)).unwrap();
+        
+        setIsFetched(true);
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch profile', error);
+    }
+    
+  };
 
+  useEffect(() => {
     fetchProfileData();
-  }, [dispatch, userID, isFetched]);
+  }, [dispatch]);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -76,7 +76,7 @@ const ProfileForm2 = () => {
           <Route path="address" element={<ProfileFormAddress />} />
           <Route path="store" element={<ProfileFormStore />} />
           <Route path="store/:storeID" element={<ProfileFormStoreDashboard />} />
-          <Route path="store/create" element={<ProfileFormStoreCreate />} />
+          <Route path="create-store" element={<ProfileFormStoreCreate />} />
 
           {/* Add more routes as needed */}
         </Routes>

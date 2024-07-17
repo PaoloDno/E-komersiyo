@@ -3,7 +3,7 @@ import api from '../features/api';
 
 export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
   try {
-    const response = await api.post('/users/login', credentials); // Use the configured `api` instance
+    const response = await api.post('/users/login', credentials); 
     
     if (response){
     const { token, user } = response.data;
@@ -18,7 +18,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, thunkAPI
 
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
   try {
-    const response = await api.post('/users/register', userData); // Use the configured `api` instance
+    const response = await api.post('/users/register', userData); 
     const { token, user } = response.data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));

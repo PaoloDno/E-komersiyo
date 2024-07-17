@@ -8,6 +8,7 @@ const initialState = {
       lastname: '',
       middleInitial: ''
     },
+    userImage: '',
     phoneNumber: '',
     address: {
       street: '',

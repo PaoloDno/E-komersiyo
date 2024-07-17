@@ -38,7 +38,7 @@ const DisplayProfileState = () => {
           <h2 className="text-lg font-semibold">User Stores</h2>
           <ul>
             {profileState.profile.userStores.map((store, index) => (
-              <li key={index}>{store}</li>
+              <li key={index}>{store.storeName}</li>
             ))}
           </ul>
         </div>

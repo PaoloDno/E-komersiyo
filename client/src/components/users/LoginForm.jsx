@@ -63,7 +63,10 @@ const LoginForm = () => {
     const resultAction = await dispatch(login({ username: sanitizedUsername, password: sanitizedPassword }));
     if (login.fulfilled.match(resultAction)) {
       setMessage('Login successful!');
-      setTimeout(() => navigate('/home'), 1500);
+      const timeoutId = setTimeout(() => {
+        navigate('/home');
+        }, 1500);
+      return () => clearTimeout(timeoutId);
     } else {
       setMessage('Login failed. Please check your username and password.');
     }

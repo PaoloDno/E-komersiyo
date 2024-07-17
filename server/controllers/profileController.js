@@ -38,7 +38,7 @@ const updateUserProfile = async (req, res) => {
         'userProfile.firstname': firstname,
         'userProfile.lastname': lastname,
         'userProfile.middleInitial': middleInitial,
-        'phoneNumber': phoneNumber,
+        'phoneNumber': phoneNumber
       },
       { new: true, upsert: true } // Return the updated document
     );

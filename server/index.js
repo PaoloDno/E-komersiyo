@@ -6,7 +6,7 @@ const connDB = require('./config/db.js');
 //routes
 const userRouter = require('./routes/userRoute.js');
 const profileRoutes = require('./routes/profileRoutes');
-
+const storeRoutes = require('./routes/storeRoutes.js');
 
 dotenv.config();
 
@@ -23,6 +23,7 @@ connDB();
 // Routes
 app.use('/api/users', userRouter);
 app.use('/api/profile', profileRoutes);
+app.use('/api/store', storeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
