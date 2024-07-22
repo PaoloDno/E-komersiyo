@@ -7,7 +7,7 @@ const getProfileByUserId = async (req, res) => {
 
   try {
     const profile = await Profile.findOne({ userID });
-
+    console.log(profile);
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
@@ -32,18 +32,18 @@ const updateUserProfile = async (req, res) => {
   try {
     console.log("Profile data received:", profileData);
 
+    const updateFields = {};
+    if (firstname) updateFields['userProfile.firstname'] = firstname;
+    if (lastname) updateFields['userProfile.lastname'] = lastname;
+    if (middleInitial) updateFields['userProfile.middleInitial'] = middleInitial;
+    if (phoneNumber) updateFields['userProfile.phoneNumber'] = phoneNumber;
+
     const profile = await Profile.findOneAndUpdate(
       { userID },
-      {
-        'userProfile.firstname': firstname,
-        'userProfile.lastname': lastname,
-        'userProfile.middleInitial': middleInitial,
-        'phoneNumber': phoneNumber
-      },
-      { new: true, upsert: true } // Return the updated document
+      { $set: updateFields },
+      { new: true, upsert: true }
     );
 
-    console.log("Updated profile:", profile);
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });

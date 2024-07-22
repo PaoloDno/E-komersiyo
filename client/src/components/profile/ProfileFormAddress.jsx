@@ -25,11 +25,11 @@ const ProfileFormAddress = () => {
   useEffect(() => {
     if (profile) {
       setAddressData({
-        street: street || '',
-        brgy: brgy || '',
-        city: city || '',
-        country: country || '',
-        postal: postal || '',
+        street: street,
+        brgy: brgy,
+        city: city,
+        country: country,
+        postal: postal,
       });
     }
   }, [profile]);
@@ -91,11 +91,20 @@ const ProfileFormAddress = () => {
       try {
         console.log({ ...sanitizedData, userID });
 
-        const resultAction = await dispatch(updateAddressProfile({ ...sanitizedData, userID }));
-        if (updateAddressProfile.fulfilled.match(resultAction)) {
-          setMessage('Address updated successfully');
-          setEditMode(false);
-        }
+        dispatch(updateAddressProfile({ ...sanitizedData, userID }))
+          .unwrap()
+          .then((updatedAddress) => {
+            setMessage('Address updated successfully');
+            setAddressData({
+              street: updatedAddress.address.street,
+              brgy: updatedAddress.address.brgy,
+              city: updatedAddress.address.city,
+              country: updatedAddress.address.country,
+              postal: updatedAddress.address.postal,
+            });
+            setEditMode(false);
+          })
+          .catch((error) => setMessage(`Failed to update address: ${error.message}`));
       } catch (error) {
         setMessage(`Failed to update address: ${error.message}`);
       }
@@ -108,81 +117,81 @@ const ProfileFormAddress = () => {
   };
 
   return (
-    <div className='flex flex-col w-full'>
-      <h1 className="mb-4 text-xl font-bold">Address Information</h1>
+    <div className='flex flex-col w-full p-4 bg-white shadow-md rounded-md'>
+      <h1 className="mb-4 text-2xl font-bold text-gray-800">Address Information</h1>
       {!editMode ? (
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 my-2'>
-          <p>Street: {street}</p>
-          <p>Barangay: {brgy}</p>
-          <p>City: {city}</p>
-          <p>Country: {country}</p>
-          <p>Postal Code: {postal}</p>
+          <p><strong>Street:</strong> {addressData.street}</p>
+          <p><strong>Barangay:</strong> {addressData.brgy}</p>
+          <p><strong>City:</strong> {addressData.city}</p>
+          <p><strong>Country:</strong> {addressData.country}</p>
+          <p><strong>Postal Code:</strong> {addressData.postal}</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label htmlFor="street" className="block mb-2">Street:</label>
+              <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-600">Street:</label>
               <input
                 required
                 type="text"
                 id="street"
                 name="street"
-                value={addressData.street == '' ? 'processing..' : addressData.street}
+                value={addressData.street}
                 onChange={handleChange}
-                className="w-full p-2 mb-4 rounded"
+                className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 maxLength="100"
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="brgy" className="block mb-2">Barangay:</label>
+              <label htmlFor="brgy" className="block mb-2 text-sm font-medium text-gray-600">Barangay:</label>
               <input
                 required
                 type="text"
                 id="brgy"
                 name="brgy"
-                value={addressData.brgy == '' ? 'processing..' : addressData.brgy}
+                value={addressData.brgy}
                 onChange={handleChange}
-                className="w-full p-2 mb-4 rounded"
+                className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 maxLength="100"
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="city" className="block mb-2">City:</label>
+              <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-600">City:</label>
               <input
                 required
                 type="text"
                 id="city"
                 name="city"
-                value={addressData.city == '' ? 'processing..' : addressData.city}
+                value={addressData.city}
                 onChange={handleChange}
-                className="w-full p-2 mb-4 rounded"
+                className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 maxLength="100"
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="country" className="block mb-2">Country:</label>
+              <label htmlFor="country" className="block mb-2 text-sm font-medium text-gray-600">Country:</label>
               <input
                 required
                 type="text"
                 id="country"
                 name="country"
-                value={addressData.country == '' ? 'processing..' : addressData.country}
+                value={addressData.country}
                 onChange={handleChange}
-                className="w-full p-2 mb-4 rounded"
+                className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 maxLength="100"
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="postal" className="block mb-2">Postal Code:</label>
+              <label htmlFor="postal" className="block mb-2 text-sm font-medium text-gray-600">Postal Code:</label>
               <input
                 required
                 type="text"
                 id="postal"
                 name="postal"
-                value={addressData.postal == '' ? 'processing..' : addressData.postal}
+                value={addressData.postal}
                 onChange={handleChange}
-                className="w-full p-2 mb-4 rounded"
+                className="w-full p-2 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
                 maxLength="10"
               />
             </div>
@@ -190,7 +199,7 @@ const ProfileFormAddress = () => {
           <p className='text-lg text-red-500'>{message}</p>
           <button
             type="submit"
-            className={`p-2 bg-blue-500 text-white my-3 rounded-sm`}
+            className={`w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300`}
             disabled={!addressData.street || !addressData.brgy || !addressData.city || !addressData.country || !addressData.postal}
           >
             Update Address
@@ -199,10 +208,11 @@ const ProfileFormAddress = () => {
       )}
       <button
         onClick={toggleEditMode}
-        className={`p-2 bg-gray-300 text-black my-3 rounded-sm`}
+        className={`w-full p-2 mt-3 bg-gray-300 text-black rounded-md hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-200`}
       >
         {editMode ? 'Cancel Edit' : 'Edit Address'}
       </button>
+      <p className="text-lg text-red-500">{message}</p>
     </div>
   );
 };

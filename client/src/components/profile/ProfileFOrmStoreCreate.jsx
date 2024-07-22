@@ -11,7 +11,7 @@ const ProfileFormStoreCreate = () => {
 
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { userID, username } = user || {};
-  const { error }  = useSelector((state) => state.stores);
+  const { storeID, storeName }  = useSelector((state) => state.stores);
 
   const [storeFormData, setStoreFormData] = useState({
     storeName: '',
@@ -102,9 +102,17 @@ const ProfileFormStoreCreate = () => {
           storeOwnerName: sanitizeInput(storeFormData.storeOwner.storeOwnerName)
         },
       }
+      const User = {
+        userID: userID,
+        username: username
+      }
+      const Store = {
+        storeID: storeID,
+        storeName: storeName
+      }
       try {
         console.log(storeFormData);
-        const resultAction = await dispatch(createStore({...sanitizedData}));
+        const resultAction = await dispatch(createStore({...sanitizedData, Store, User}));
         if(createStore.fulfilled.match(resultAction)) {
           setMessage("StoreCreated Successfully");
           setFormValidity(false);

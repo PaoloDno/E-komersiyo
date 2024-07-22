@@ -20,7 +20,7 @@ const DisplayProfileState = () => {
 
         <div className="mb-4">
           <h2 className="text-lg font-semibold">Phone Number</h2>
-          <p>{profileState.profile.phoneNumber}</p>
+          <p>{profileState.profile.userProfile.phoneNumber}</p>
         </div>
 
         {address && (

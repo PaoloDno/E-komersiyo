@@ -6,10 +6,10 @@ const initialState = {
     userProfile: {
       firstname: '',
       lastname: '',
-      middleInitial: ''
+      middleInitial: '',
+      phoneNumber: '',
     },
     userImage: '',
-    phoneNumber: '',
     address: {
       street: '',
       bgry: '',
@@ -38,7 +38,6 @@ const profileSlice = createSlice({
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("Profile data received:", action.payload);
         state.profile = action.payload;
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
@@ -51,7 +50,6 @@ const profileSlice = createSlice({
       })
       .addCase(fetchAddressProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("Address data received:", action.payload);
         state.profile.address = action.payload;
       })
       .addCase(fetchAddressProfile.rejected, (state, action) => {
@@ -64,7 +62,7 @@ const profileSlice = createSlice({
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profile = { ...state.profile, ...action.payload };
+        state.profile.userProfile = { ...state.profile, ...action.payload };
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isLoading = false;

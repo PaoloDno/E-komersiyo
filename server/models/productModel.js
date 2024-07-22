@@ -9,10 +9,27 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  storeName: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Store',
-    required: true
+  Store: {
+    storeID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store',
+      required: true
+    },
+    storeName: {
+      type: String,
+      required: true
+    },
+  },
+  User: {
+    userID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store',
+      required: true
+    },
+    username: {
+      type: String,
+      required: true
+    }
   },
   productDescription: {
     type: String,

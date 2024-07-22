@@ -15,10 +15,10 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         default: ""
       },
-  },
-  phoneNumber: {
-    type: String,
-    default: ""
+      phoneNumber: {
+        type: String,
+        default: ""
+      },
   },
   userImage: {
     type: String,

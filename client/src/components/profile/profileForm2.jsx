@@ -7,10 +7,11 @@ import ProfileFormAddress from './ProfileFormAddress';
 import ProfileFormDisplay from './profileFormDisplay';
 import ProfileFormStore from './ProfileFormStore';
 import ProfileFormStoreCreate from './ProfileFormStoreCreate';
+import ProfileFormProduct from './ProfileFormProduct';
 import ProfileFormStoreDashboard from './ProfileFormStoreDashboard';
 import { useNavigate } from 'react-router-dom';
 
-import { FaUser } from 'react-icons/fa'; // Import icons from react-icons
+import { FaUser } from 'react-icons/fa'; 
 
 
 const ProfileForm2 = () => {
@@ -63,6 +64,8 @@ const ProfileForm2 = () => {
           <li className="mb-2"><Link to="address"><FaUser className="inline mr-2" />Address</Link></li>
           <li className="mb-2"><Link to="store"><FaUser className="inline mr-2" />Store</Link></li>
           <li className="mb-2"><Link to="cart"><FaUser className="inline mr-2" />Cart</Link></li>
+          <li className="mb-2"><Link to="products"><FaUser className="inline mr-2" />Cart</Link></li>
+          
           <li>logout</li>
           
         </ul>
@@ -75,8 +78,11 @@ const ProfileForm2 = () => {
           <Route path="profile" element={<ProfileFormUser />} />
           <Route path="address" element={<ProfileFormAddress />} />
           <Route path="store" element={<ProfileFormStore />} />
+          <Route path="products" element={<ProfileFormStore />} />
           <Route path="store/:storeID" element={<ProfileFormStoreDashboard />} />
           <Route path="create-store" element={<ProfileFormStoreCreate />} />
+          <Route path="create-product" element={<ProfileFormStoreCreate />} />
+
 
           {/* Add more routes as needed */}
         </Routes>

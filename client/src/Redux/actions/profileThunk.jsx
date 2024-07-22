@@ -4,21 +4,17 @@ import api from "../features/api";
 export const fetchUserProfile = createAsyncThunk(
   'profile/fetchUserProfile',
   async (userID, { getState, rejectWithValue }) => {
-    console.log('to get token');
+    
     const token = getState().auth.token; 
     try {
-      console.log("Fetching user profile with ID:", userID);
       const response = await api.get(`/profile/${userID}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log("error");
       const errorMessage = error.response?.data || error.message;
-      console.error("Error fetching user profile:", errorMessage);
       return rejectWithValue(errorMessage);
     }
   }

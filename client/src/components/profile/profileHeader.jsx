@@ -5,11 +5,10 @@ import defaultImg from '../../assets/images/imageDefault.png'
 
 const profileHeader = () => {
   const profile = useSelector((state) => state.profile);
-  console.log(profile);
+  
   const { userProfile, userImage } = profile.profile || {};
-  console.log(userProfile);
+  
   const {firstname, lastname, middleInitial} = userProfile || {};
-  console.log("userPRofiel", userProfile, "user Image", userImage)
   const [profileHeaderData, setProfileHeaderData] = useState({
     firstname: '',
     lastname: '',
