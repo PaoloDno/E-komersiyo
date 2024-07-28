@@ -7,7 +7,7 @@ import ProfileFormAddress from './ProfileFormAddress';
 import ProfileFormDisplay from './profileFormDisplay';
 import ProfileFormStore from './ProfileFormStore';
 import ProfileFormStoreCreate from './ProfileFormStoreCreate';
-import ProfileFormProduct from './ProfileFormProduct';
+import ProfileFormProductCreate from './ProfileFormProductCreate';
 import ProfileFormStoreDashboard from './ProfileFormStoreDashboard';
 import { useNavigate } from 'react-router-dom';
 
@@ -81,7 +81,7 @@ const ProfileForm2 = () => {
           <Route path="products" element={<ProfileFormStore />} />
           <Route path="store/:storeID" element={<ProfileFormStoreDashboard />} />
           <Route path="create-store" element={<ProfileFormStoreCreate />} />
-          <Route path="create-product" element={<ProfileFormStoreCreate />} />
+          <Route path="create-product/:storeID" element={<ProfileFormProductCreate />} />
 
 
           {/* Add more routes as needed */}

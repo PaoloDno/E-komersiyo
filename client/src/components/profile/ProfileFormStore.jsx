@@ -13,7 +13,7 @@ const ProfileFormStore = () => {
   const { username } = user || {};
 
   const handleCreateStore = () => {
-    navigate("/profile/create-store");
+    navigate(`/profile/create-store`);
   };
 
   const handleStoreClick = (storeID) => {

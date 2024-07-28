@@ -5,10 +5,11 @@ export const createProduct = createAsyncThunk(
   'product/createProduct',
   
   async (productData, {getState, rejectWithValue}) => {
-    
+    const {Store} = productData;
+    const {storeID} = Store;
     const token = getState().auth.token; 
     try {
-      const response = await api.put(`/product/create/${productData.ID}`, productData, {
+      const response = await api.post(`/product/create/${storeID}`, productData, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -61,7 +62,7 @@ export const getProductList = createAsyncThunk(
   async (userID, {getState, rejectWithValue}) => {
     const token = getState().auth.token; 
     try {
-      const response = await api.put(`/product/getProductList/${userID}`, {
+      const response = await api.get(`/product/getProductList/${userID}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

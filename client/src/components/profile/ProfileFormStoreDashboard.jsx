@@ -32,6 +32,10 @@ const ProfileFormStoreDashboard = () => {
     storeReviews: ''
   });
 
+  const handleRedirect = () => {
+    navigate(`/profile/create-product/${storeID}`);
+  };
+  
   useEffect(() => {
     if (storeID) {
       dispatch(fetchUsersStore(storeID))
@@ -75,6 +79,15 @@ const ProfileFormStoreDashboard = () => {
         <p>Verified: {pageStore.verified ? "Yes" : "No"}</p>
         <p>Reports: {pageStore.storeReports || "Loading..."}</p>
         <p>Reviews: {pageStore.storeReviews || "Loading..."}</p>
+      </div>
+
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={handleRedirect}
+          className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+        >
+          Create Product
+        </button>
       </div>
     </div>
   );

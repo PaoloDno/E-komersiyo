@@ -11,8 +11,8 @@ const ProfileFormStoreCreate = () => {
 
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { userID, username } = user || {};
-  const { storeID, storeName }  = useSelector((state) => state.stores);
-
+  const {error} = useSelector((state) => state.stores)
+ 
   const [storeFormData, setStoreFormData] = useState({
     storeName: '',
     storeOwner: {
@@ -24,6 +24,7 @@ const ProfileFormStoreCreate = () => {
 
   const [message, setMessage] = useState('');
   const [formValidity, setFormValidity] = useState(true);
+  const [storeCreated, setStoreCreated] = useState(false);
 
   useEffect(() => {
     setMessage('');
@@ -102,25 +103,18 @@ const ProfileFormStoreCreate = () => {
           storeOwnerName: sanitizeInput(storeFormData.storeOwner.storeOwnerName)
         },
       }
-      const User = {
-        userID: userID,
-        username: username
-      }
-      const Store = {
-        storeID: storeID,
-        storeName: storeName
-      }
       try {
         console.log(storeFormData);
-        const resultAction = await dispatch(createStore({...sanitizedData, Store, User}));
+        const resultAction = await dispatch(createStore({...sanitizedData}));
+        console.log(resultAction);
         if(createStore.fulfilled.match(resultAction)) {
-          setMessage("StoreCreated Successfully");
+          setMessage("Store Created Successfully");
+          setStoreCreated(true);
+          console.log("store created successfully");
           setFormValidity(false);
-          const timeoutId = setTimeout(() => {
-              navigate('/profile/store');
-            }, 1500);
-          return () => clearTimeout(timeoutId);
           }
+        
+          
       } catch (error) {
         setMessage('Failed to create Shop: ' `${error.message}`);
       }
@@ -159,13 +153,23 @@ const ProfileFormStoreCreate = () => {
             </div>
         </div>
         <p className='text-lg text-red-500'>{message}</p>
+        {storeCreated ? (
+          <button
+            type="button"
+            className="p-2 bg-green-500 text-white my-3 rounded-sm"
+            onClick={() => navigate('/profile/store')}
+          >
+            Go to Store
+          </button>
+        ) : (
           <button
             type="submit"
-            className={`p-2 bg-blue-500 text-white my-3 rounded-sm`}
-            disabled={!storeFormData.storeName || !storeFormData.storeDescription || !storeFormData.storeName || !storeFormData.storeOwner}
+            className="p-2 bg-blue-500 text-white my-3 rounded-sm"
+            disabled={!storeFormData.storeName || !storeFormData.storeDescription}
           >
             Create Store
           </button>
+        )}
       </form>
     </div>
   )

@@ -38,10 +38,10 @@ export const fetchUsersStore = createAsyncThunk(
   }
 );
 
-
 export const createStore = createAsyncThunk(
   'store/createStore',
   async (storeData, { getState, rejectWithValue }) => {
+    console.log(storeData);
     const { storeOwnerID } = storeData.storeOwner;
     const token = getState().auth.token; 
     try {
