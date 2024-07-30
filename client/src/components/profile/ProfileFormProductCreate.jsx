@@ -15,7 +15,7 @@ const ProfileProductForm = () => {
     productName: '',
     productPrice: '',
     productDescription: '',
-    productCategory: [''],
+    productCategory: [],
     productImage: ''
   });
 
@@ -105,7 +105,7 @@ const ProfileProductForm = () => {
           User: {
             userID: userID,
             username: username 
-          }
+          },
         }))
         .unwrap()
         .then((newProduct) => {

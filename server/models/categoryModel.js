@@ -6,7 +6,7 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  catgoryNumber: {
+  categoryTotalNumber: {
     type: Number,
     default: 1
   }

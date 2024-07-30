@@ -1,23 +1,30 @@
-const Product = require('../models/Product');
-const Category = require('../models/categoryModel/')
+const Product = require('../models/productModel');
+const Category = require('../models/categoryModel')
 
 const createProduct = async (req, res) => {
   const { storeID } = req.params;
-  const { storeCategory } = req.body;
+  const { productCategory, ...rest } = req.body;
 
   try {
-    let category = await Category.findOne({ categoryName: storeCategory });
-    if (category) {
-      category.categoryTotalNumber += 1;
-    } else {
-      category = new Category({
-        categoryName: storeCategory,
-        categoryTotalNumber: 1
-      });
-    }
-    await category.save();
+    const categories = await Promise.all(productCategory.map(async (categoryName) => {
+      let category = await Category.findOne({ categoryName });
+      if (category) {
+        category.categoryTotalNumber += 1;
+      } else {
+        category = new Category({
+          categoryName,
+          categoryTotalNumber: 1
+        });
+      }
+      await category.save();
+      return category._id;
+    }));
 
-    const newProduct = new Product({ ...req.body, storeID });
+    const newProduct = new Product({
+      ...rest,
+      storeID,
+      productCategory: categories // Store the array of category IDs
+    });
     const savedProduct = await newProduct.save();
 
     res.status(201).json(savedProduct);
@@ -52,7 +59,7 @@ const requestDeleteProduct = async (req, res) => {
   }
 };
 
-const getProductList = async (req, res) => {
+const getProductListUser = async (req, res) => {
   try {
     const { userID } = req.params;
     const products = await Product.find({ userID });
@@ -61,5 +68,16 @@ const getProductList = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getProductListStore = async (req, res) => {
+  try {
+    const { storeID } = req.params;
+    const products = await Product.find({ storeID });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-module.exports = { createProduct, updateProduct, requestDeleteProduct, getProductList}
+
+
+module.exports = { createProduct, updateProduct, requestDeleteProduct, getProductListUser, getProductListStore}

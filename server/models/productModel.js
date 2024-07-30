@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
     required: true
   },
   Store: {
-    storeOwnerID: {
+    storeID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Store',
       required: true
