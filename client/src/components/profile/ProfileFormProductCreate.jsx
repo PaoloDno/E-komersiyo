@@ -117,6 +117,7 @@ const ProfileProductForm = () => {
             productCategory: newProduct.productCategory,
             productImage: newProduct.productImage
           });
+          
           console.log(newProduct);
         })
         .catch((error) => setMessage(`Failed to create product: ${error.message}`));

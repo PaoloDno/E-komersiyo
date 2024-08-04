@@ -58,11 +58,31 @@ export const requestDeleteProduct = createAsyncThunk(
 );
 
 export const getProductListUser = createAsyncThunk(
-  'product/getProductList',
+  'product/getProductListUser',
   async (userID, {getState, rejectWithValue}) => {
     const token = getState().auth.token; 
     try {
       const response = await api.get(`/product/getProductListUser/${userID}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log("hello");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  } 
+);
+
+export const getProductListStore = createAsyncThunk(
+  'product/getProductListStore',
+  async (storeID, {getState, rejectWithValue}) => {
+    const token = getState().auth.token; 
+    try {
+      console.log(storeID);
+      const response = await api.get(`/product/getProductListStore/${storeID}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -74,12 +94,13 @@ export const getProductListUser = createAsyncThunk(
   } 
 );
 
-export const getProductListStore = createAsyncThunk(
-  'product/getProductList',
-  async (userID, {getState, rejectWithValue}) => {
+export const getProduct = createAsyncThunk(
+  'product/getProduct',
+  async(productID, {getState, rejectWithValue}) => {
     const token = getState().auth.token; 
     try {
-      const response = await api.get(`/product/getProductListStore/${userID}`, {
+      console.log(productID);
+      const response = await api.get(`/product/getProduct/${productID}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -88,5 +109,5 @@ export const getProductListStore = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  } 
-);
+  }
+)

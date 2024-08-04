@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProduct, updateProduct, requestDeleteProduct, getProductList } from "../actions/productThunks";
+import { 
+      createProduct,
+      updateProduct,
+      requestDeleteProduct,
+      getProductListStore,
+      getProductListUser,
+      getProduct
+     } from "../actions/productThunks";
 
 const initialState = {
   products: [],
@@ -51,15 +58,39 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     })
-    .addCase(getProductList.pending, (state) => {
+    .addCase(getProductListUser.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     })
-    .addCase(getProductList.fulfilled, (state, action) => {
+    .addCase(getProductListUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
     })
-    .addCase(getProductList.rejected, (state, action) => {
+    .addCase(getProductListUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+    .addCase(getProductListStore.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(getProductListStore.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.products = action.payload;
+    })
+    .addCase(getProductListStore.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+    .addCase(getProduct.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(getProduct.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.product = action.payload;
+    })
+    .addCase(getProduct.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     })

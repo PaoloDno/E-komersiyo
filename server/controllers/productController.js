@@ -1,6 +1,7 @@
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel')
 
+
 const createProduct = async (req, res) => {
   const { storeID } = req.params;
   const { productCategory, ...rest } = req.body;
@@ -33,6 +34,7 @@ const createProduct = async (req, res) => {
   }
 };
 
+
 const updateProduct = async (req, res) => {
   try {
     const { productID } = req.params;
@@ -45,6 +47,7 @@ const updateProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const requestDeleteProduct = async (req, res) => {
   try {
@@ -59,19 +62,40 @@ const requestDeleteProduct = async (req, res) => {
   }
 };
 
+
 const getProductListUser = async (req, res) => {
   try {
+      console.log("getProduct fo the user")
     const { userID } = req.params;
-    const products = await Product.find({ userID });
+    console.log(userID);
+    const products = await Product.find({ 'User.userID': userID });
+    console.log(products);
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+
 const getProductListStore = async (req, res) => {
   try {
+    console.log("getProduct of the store")
     const { storeID } = req.params;
-    const products = await Product.find({ storeID });
+    console.log(storeID);
+    const products = await Product.find({ 'Store.storeID': storeID });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getProduct = async (req, res) => {
+  try {
+    console.log("getProduct of the store")
+    const { productID } = req.params;
+    console.log(productID);
+    const products = await Product.find({ '_id': productID });
+    console.log(products)
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,4 +104,4 @@ const getProductListStore = async (req, res) => {
 
 
 
-module.exports = { createProduct, updateProduct, requestDeleteProduct, getProductListUser, getProductListStore}
+module.exports = { createProduct, updateProduct, requestDeleteProduct, getProductListUser, getProductListStore, getProduct }

@@ -9,6 +9,9 @@ import ProfileFormStore from './ProfileFormStore';
 import ProfileFormStoreCreate from './ProfileFormStoreCreate';
 import ProfileFormProductCreate from './ProfileFormProductCreate';
 import ProfileFormStoreDashboard from './ProfileFormStoreDashboard';
+import ProfileFormProductListUser from './ProfileFormProductListUser';
+import ProfileFormProductListStore from './ProfileFormProductListStore';
+import ProfileFormGetProduct from './ProfileFormProductGet'
 import { useNavigate } from 'react-router-dom';
 
 import { FaUser } from 'react-icons/fa'; 
@@ -64,14 +67,12 @@ const ProfileForm2 = () => {
           <li className="mb-2"><Link to="address"><FaUser className="inline mr-2" />Address</Link></li>
           <li className="mb-2"><Link to="store"><FaUser className="inline mr-2" />Store</Link></li>
           <li className="mb-2"><Link to="cart"><FaUser className="inline mr-2" />Cart</Link></li>
-          <li className="mb-2"><Link to="products"><FaUser className="inline mr-2" />Cart</Link></li>
-          
+          <li className="mb-2"><Link to="list-product-user"><FaUser className="inline mr-2" />Product</Link></li>
           <li>logout</li>
           
         </ul>
       </div>
       
-      {/* Main Content */}
       <div className="flex flex-col w-full lg:w-3/4 max-w-2xl bg-slate-300 p-6 rounded-3xl shadow-lg shadow-slate-600 mt-4 z-10">
         <Routes>
           <Route path="*" element={<ProfileFormDisplay />} />
@@ -82,9 +83,10 @@ const ProfileForm2 = () => {
           <Route path="store/:storeID" element={<ProfileFormStoreDashboard />} />
           <Route path="create-store" element={<ProfileFormStoreCreate />} />
           <Route path="create-product/:storeID" element={<ProfileFormProductCreate />} />
-
-
-          {/* Add more routes as needed */}
+          <Route path="list-product-store/:storeID" element={<ProfileFormProductListStore />} />
+          <Route path="list-product-user" element={<ProfileFormProductListUser />} />
+          <Route path="getProduct/:productID" element={<ProfileFormGetProduct />} />
+          
         </Routes>
       </div>
     </div>

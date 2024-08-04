@@ -16,6 +16,7 @@ const ProfileFormUser = () => {
     middleInitial: '',
     phoneNumber: '',
   });
+  
   console.log("a", userProfile);
 
   const [updated, setUpdated] = useState(false);

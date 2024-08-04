@@ -86,9 +86,12 @@ const ProfileFormStoreCreate = () => {
       !storeFormData.storeOwner.storeOwnerID ||
       !storeFormData.storeOwner.storeOwnerName ||
       !storeFormData.storeDescription
-    ){
+    ) {
       setMessage('Please fill out all fields.');
       setFormValidity(false);
+      return;
+    } else if (storeCreated) {
+      setMessage('Store already created');
       return;
     } else {
       setFormValidity(true);
@@ -105,15 +108,19 @@ const ProfileFormStoreCreate = () => {
       }
       try {
         console.log(storeFormData);
-        const resultAction = await dispatch(createStore({...sanitizedData}));
-        console.log(resultAction);
-        if(createStore.fulfilled.match(resultAction)) {
+        const resultAction = await dispatch(createStore({...sanitizedData}))
+        .unwrap()
+        .then((newStore) => {
+          setStoreCreated(true);
+          console.log("store created successfully");
+          setFormValidity(false);
+          setStoreFormData(newStore);
           setMessage("Store Created Successfully");
           setStoreCreated(true);
           console.log("store created successfully");
           setFormValidity(false);
-          }
-        
+        })
+        console.log(resultAction);
           
       } catch (error) {
         setMessage('Failed to create Shop: ' `${error.message}`);

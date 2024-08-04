@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductListStore } from '../../Redux/actions/productThunks';
 import { useParams } from 'react-router-dom';
@@ -6,33 +6,42 @@ import { useParams } from 'react-router-dom';
 const ProfileFormProductListStore = () => {
   const dispatch = useDispatch();
   const { storeID } = useParams();
-  const { products, status, error } = useSelector((state) => state.products);
+  const { products, isLoading, error } = useSelector((state) => state.products);
+
+  const [ storeProductCards, setStoreProductCards ] = useState([]);
+
+  useEffect(() => {
+    if (products) {
+      setStoreProductCards(products);
+    }
+  }, [products]);
 
   useEffect(() => {
     if (storeID) {
+      console.log(storeID);
       dispatch(getProductListStore(storeID));
     }
   }, [dispatch, storeID]);
 
   let content;
 
-  if (status === 'loading') {
+  if (isLoading) {
     content = <p>Loading...</p>;
-  } else if (status === 'succeeded') {
+  } else if (!isLoading && !error) {
     content = (
-      <ul>
-        {products.map((product) => (
-          <li key={product._id}>
-            <h2>{product.productName}</h2>
-            <p>{product.productDescription}</p>
-            <p>Price: {product.productPrice}</p>
-            <p>Categories: {product.productCategory.join(', ')}</p>
-            <img src={product.productImage} alt={product.productName} />
-          </li>
-        ))}
-      </ul>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {storeProductCards.map((product) => (
+        <div key={product._id} className="bg-white rounded-lg shadow-md p-4">
+          <h2 className="text-xl font-semibold">{product.productName}</h2>
+          <p className="text-gray-600">{product.productDescription}</p>
+          <p className="text-gray-800 font-bold">Price: ${product.productPrice}</p>
+          <p className="text-gray-600">Categories: {product.productCategory.join(', ')}</p>
+          <img src={product.productImage} alt={product.productName} className="mt-4 w-full h-48 object-cover" />
+        </div>
+      ))}
+    </div>
     );
-  } else if (status === 'failed') {
+  } else if (error) {
     content = <p>{error}</p>;
   }
 

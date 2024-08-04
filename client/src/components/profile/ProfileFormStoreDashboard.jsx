@@ -32,8 +32,11 @@ const ProfileFormStoreDashboard = () => {
     storeReviews: ''
   });
 
-  const handleRedirect = () => {
+  const handleRedirectToCreateProduct = () => {
     navigate(`/profile/create-product/${storeID}`);
+  };
+  const handleRedirectToStoreProduct = () => {
+    navigate(`/profile/list-product-store/${storeID}`);
   };
   
   useEffect(() => {
@@ -83,12 +86,21 @@ const ProfileFormStoreDashboard = () => {
 
       <div className="flex justify-center mt-4">
         <button
-          onClick={handleRedirect}
+          onClick={handleRedirectToCreateProduct}
           className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
         >
           Create Product
         </button>
       </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={handleRedirectToStoreProduct}
+          className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+        >
+          View Store Product
+        </button>
+      </div>
+
     </div>
   );
 };
