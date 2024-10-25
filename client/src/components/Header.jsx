@@ -34,7 +34,8 @@ function Header() {
               </ul>
             </li>
             <li>
-              { !isAuthenticated ? (
+              { !isAuthenticated ? 
+              (
               <ul className='flex space-x-3'>
                 <li>
                   <Link to="/login" className="hover:text-gray-300">Login</Link>
@@ -59,7 +60,8 @@ function Header() {
                   >Log out</button>
                 </li>
               </ul>
-              )}
+              )
+              }
             </li>
           </ul>
         </nav>

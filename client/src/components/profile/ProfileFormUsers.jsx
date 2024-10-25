@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../Redux/actions/profileThunk'; // Adjust path as needed
 
+import ProfileFormPicture from '../utils/ProfileComponent'
+
 const ProfileFormUser = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -116,6 +118,7 @@ const ProfileFormUser = () => {
   return (
     <div className="flex flex-col w-full p-4 bg-white shadow-md rounded-md">
       <h1 className="mb-4 text-2xl font-bold text-gray-800">Profile Information</h1>
+      < ProfileFormPicture />
       {!editMode ? (
         <div className="grid grid-cols-2 gap-4 my-2">
           <p><strong>First Name:</strong> {formData.firstname}</p>

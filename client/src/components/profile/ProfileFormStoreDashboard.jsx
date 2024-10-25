@@ -16,7 +16,6 @@ const ProfileFormStoreDashboard = () => {
   const [error, setError] = useState('');
   const { storeID } = useParams();
 
-
   const [pageStore, setPageStore] = useState({
     storeName: '',
     storeOwner: {

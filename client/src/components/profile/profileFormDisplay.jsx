@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
+import ProfileFormPicture from '../utils/ProfileComponent'
 const DisplayProfileState = () => {
   const profileState = useSelector(state => state.profile);
 
@@ -10,6 +10,7 @@ const DisplayProfileState = () => {
     <div className="flex flex-col items-center justify-center bg-gray-800 p-5 md:p-10 rounded-lg shadow-md w-full">
       <div className="flex flex-col w-full h-fit p-5 text-white">
         <h1 className="text-xl lg:text-2xl font-medium mb-4">Profile State</h1>
+        <ProfileFormPicture />
 
         <div className="mb-4">
           <h2 className="text-lg font-semibold">User Profile</h2>

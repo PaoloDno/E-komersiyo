@@ -25,15 +25,16 @@ const ProfileFormProductListStore = () => {
   }, [products]);
 
   const handleView = (productID) => {
-    navigate(`/product/getProduct/${productID}`);
+    console.log(productID)
+    navigate(`/profile/getProduct/${productID}`);
   };
 
   const handleEdit = (productID) => {
-    navigate(`/product/getProduct/${productID}`);
+    navigate(`/profile/getProduct/${productID}`);
   };
 
   const handleDelete = (productID) => {
-    navigate(`/product/getProduct/${productID}`);
+    navigate(`/profile/getProduct/${productID}`);
   };
 
   let content;
